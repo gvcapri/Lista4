@@ -17,19 +17,19 @@ export class AlunoRepositorio{
         return await this.repositorio.find();
     }
     
-    async obter(id: number): Promise<Aluno>{
-        return await this.repositorio.findOneBy({id: id});
+    async obter(id: number): Promise<Aluno | null> {
+        return await this.repositorio.findOneBy({ id });
     }
 
-    async pesquisar(musica: Partial<Aluno>): Promise<Aluno | null>{
-        return await this.repositorio.findOne({where : musica});
+    async pesquisar(aluno: Partial<Aluno>): Promise<Aluno | null>{
+        return await this.repositorio.findOne({where : aluno});
     }
 
-    async remover(c: Aluno): Promise<Aluno>{
-        return await this.repositorio.remove(c);
+    async remover(aluno: Aluno): Promise<Aluno | null>{
+        return await this.repositorio.remove(aluno);
     }
 
-    async atualizar(id: number, c: Partial<Aluno>): Promise<void>{
-        await this.repositorio.update(id, c);
+    async atualizar(id: number, aluno: Partial<Aluno>): Promise<void>{
+        await this.repositorio.update(id, aluno);
     }
 }
