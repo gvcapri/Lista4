@@ -9,9 +9,6 @@ export class Aluno {
   @Column({ type: "varchar", length: 100 })
   nome: string;
 
-  @Column({ type: "int" })
-  idade: number;
-
   @Column({ type: "varchar", length: 20, unique: true })
   matricula: string;
 
