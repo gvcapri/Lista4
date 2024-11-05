@@ -1,30 +1,30 @@
-import { Materia } from './Lista4/entity/Materia';
-import { AlunoRepositorio } from './entity/repository/Repositorio_aluno';
+import { Materia } from '../entity/Materia';
+import { AlunoRepositorio } from '../repository/Repositorio_aluno';
 
-export class AlunoService{
+export class AlunoService {
+    
+    private alunoRepositorio: AlunoRepositorio;
 
-    private : AlunoRepositorio;
-
-    constructor(){
-        this.AlunoRepositorio = new AlunoRepositorio();
+    constructor() {
+        this.alunoRepositorio = new AlunoRepositorio();
     }
 
-    async criar(musica: Musica): Promise<Musica>{
-        return await this.musicaRepository.criar(musica);
-    }   
-    
-    async listar(): Promise<Musica[]>{
-        return await this.musicaRepository.listar();
-    }   
+    async criar(materia: Materia): Promise<Materia> {
+        return await this.alunoRepositorio.criar(materia);
+    }
 
-    async atualizar(id: number, musica: Partial<Musica>): Promise<void>{
-        await this.musicaRepository.atualizar(id, musica);
-    }   
+    async listar(): Promise<Materia[]> {
+        return await this.alunoRepositorio.listar();
+    }
+
+    async atualizar(id: number, materia: Partial<Materia>): Promise<void> {
+        await this.alunoRepositorio.atualizar(id, materia);
+    }
 
     async remover(id: number): Promise<boolean> {
-        const musica = await this.musicaRepository.pesquisar({ id: id });
-        if (!musica) { return false; }
-        await this.musicaRepository.remover(musica);
+        const materia = await this.alunoRepositorio.pesquisar({ id: id });
+        if (!materia) { return false; }
+        await this.alunoRepositorio.remover(materia);
         return true;
     }
 }
