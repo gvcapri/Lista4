@@ -39,6 +39,19 @@ export class MateriaController {
         }
     }
 
+    async obter(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = parseInt(req.params.id);
+            const materia = await this.materiaService.obterMateria(id);
+            if (materia) {
+                return res.status(200).json(materia);
+            }
+            return res.status(404).json({ message: "Matéria não encontrada." });
+        } catch (error) {
+            return res.status(500).json({ message: "Erro ao buscar matéria.", error: error.message });
+        }
+    }
+
     async remover(req: Request, res: Response): Promise<Response> {
         try {
             const id = parseInt(req.params.id);

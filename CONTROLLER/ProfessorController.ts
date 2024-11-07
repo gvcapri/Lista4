@@ -49,6 +49,19 @@ export class ProfessorController {
         }
     }
 
+    async obter(req: Request, res: Response): Promise<Response> {
+        try {
+            const id = parseInt(req.params.id);
+            const professor = await this.professorService.obterProfessor(id);
+            if (professor) {
+                return res.status(200).json(professor);
+            }
+            return res.status(404).json({ message: "Professor não encontrado." });
+        } catch (error) {
+            return res.status(500).json({ message: "Erro ao buscar professor.", error: error.message });
+        }
+    }
+
     async atribuirMateria(req: Request, res: Response): Promise<Response> {
         try {
             const { professorId, materiaId } = req.body;
