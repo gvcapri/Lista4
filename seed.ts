@@ -2,63 +2,91 @@ import { DataSource } from 'typeorm';
 import { Aluno } from './entity/Aluno';
 import { Materia } from './entity/Materia';
 import { Professor } from './entity/Professor';
-
-// Configuração do DataSource (ajuste com os detalhes do seu banco)
-const AppDataSource = new DataSource({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: '12345678',
-    database: 'api',
-    entities: [Aluno, Materia, Professor],
-    synchronize: true, // cuidado: isso recria as tabelas a cada execução se houver alterações
-    logging: true,
-});
-
+import { Banco } from './banco';
+import { MateriaService } from './SERVICE/MateriaService'; 
+import { AlunoService } from './SERVICE/AlunoService';
+import { ProfessorService } from './SERVICE/ProfessorService'; 
 async function seedDatabase() {
     try {
-        await AppDataSource.initialize();
+        await Banco.initialize();
         console.log('Conectado ao banco de dados!');
+        const materiaService = new MateriaService;
+        const alunoService = new AlunoService;
+        const professorService = new ProfessorService;
 
-        // Criando um professor de exemplo
-        const professor = new Professor();
-        professor.nome = 'Prof. Carlos';
-        professor.email = 'carlos@example.com';
-        professor.registro = 'PR12345';
 
-        await AppDataSource.manager.save(professor);
-        console.log('Professor salvo:', professor);
+//------------------------------------------------------------------------
+        // Criando professores iniciais para teste
+        const profCarlos = new Professor();
+        profCarlos.nome = 'Prof. Carlos';
+        profCarlos.email = 'carlos@example.com';
+        profCarlos.registro = 'PR12345';
 
-        // Criando uma matéria de exemplo associada ao professor
-        const materia = new Materia();
-        materia.nome = 'Matemática Básica';
-        materia.descricao = 'Conceitos fundamentais de matemática';
-        materia.cargaHoraria = 60;
-        materia.professor = professor; // associando o professor
+        const profRafael = new Professor();
+        profRafael.nome = 'Prof. Rafael';
+        profRafael.email = 'rafael@example.com';
+        profRafael.registro = 'PR12346';
 
-        await AppDataSource.manager.save(materia);
-        console.log('Matéria salva:', materia);
+        const profAna = new Professor();
+        profAna.nome = 'Prof. Ana';
+        profAna.email = 'ana@example.com';
+        profAna.registro = 'PR12347';
 
+        await professorService.adicionarProfessor(profCarlos)
+        await professorService.adicionarProfessor(profRafael)
+        await professorService.adicionarProfessor(profAna)
+
+//------------------------------------------------------------------------
+        // Criando materias iniciais para teste
+        const fme = new Materia();
+        fme.nome = 'Matemática Básica';
+        fme.descricao = 'Conceitos fundamentais de matemática';
+        fme.cargaHoraria = 60;
+        fme.professor = profCarlos;
+        await materiaService.adicionarMateria(fme)
+
+        const c1 = new Materia();
+        c1.nome = 'Calculo 1';
+        c1.descricao = 'calculo diferencial e integral';
+        c1.cargaHoraria = 90;
+        c1.professor = profAna;
+        //c1.preReq = fme.nome;
+        await materiaService.adicionarMateria(c1)
+
+        const poo = new Materia();
+        poo.nome = 'Programação orientada a objetos';
+        poo.descricao = 'conceitos de orientação a objetos';
+        poo.cargaHoraria = 60;
+        poo.professor = profRafael;
+        await materiaService.adicionarMateria(poo)
+        //await Banco.manager.save(poo);
+//------------------------------------------------------------------------
         // Criando um aluno de exemplo
-        const aluno = new Aluno();
-        aluno.nome = 'João Silva';
-        aluno.email = 'joao@example.com';
-        aluno.matricula = '202301';
-        aluno.curso = 'Engenharia';
+        const alunoJoao = new Aluno();
+        alunoJoao.nome = 'João Silva';
+        alunoJoao.email = 'joao@example.com';
+        alunoJoao.matricula = '202301';
+        alunoJoao.curso = 'Engenharia';
+        alunoJoao.materias = [fme]; 
 
-        await AppDataSource.manager.save(aluno);
-        console.log('Aluno salvo:', aluno);
+        await alunoService.adicionarAluno(alunoJoao);
+        await alunoService.matricularAluno(alunoJoao.id, c1.id);
 
-        // Opcionalmente, você pode associar uma matéria ao aluno se houver relacionamento
-        aluno.materias = [materia];
-        await AppDataSource.manager.save(aluno);
+        const alunoTeo = new Aluno();
+        alunoTeo.nome = 'Téo Silva';
+        alunoTeo.email = 'teo@example.com';
+        alunoTeo.matricula = '292301';
+        alunoTeo.curso = 'Engenharia';
+        alunoTeo.materias = [poo]; 
+
+        await alunoService.adicionarAluno(alunoTeo);
+
 
         console.log('Dados inseridos com sucesso!');
     } catch (error) {
         console.error('Erro ao inserir dados:', error);
     } finally {
-        await AppDataSource.destroy();
+        await Banco.destroy();
     }
 }
 

@@ -9,16 +9,18 @@ export class AlunoRepositorio{
         this.repositorio = Banco.getRepository(Aluno);
     }
 
-    async criar(c: Aluno): Promise<Aluno>{
-        return await this.repositorio.save(c);
+    async criar(aluno: Aluno): Promise<Aluno> {
+    
+        return this.repositorio.manager.save(aluno);
     }
+    
 
     async listar(): Promise<Aluno[]>{
         return await this.repositorio.find();
     }
     
     async obter(id: number): Promise<Aluno | null> {
-        return await this.repositorio.findOneBy({ id });
+        return await this.repositorio.findOneBy({ id } );
     }
 
     async pesquisar(aluno: Partial<Aluno>): Promise<Aluno | null>{

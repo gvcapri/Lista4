@@ -18,7 +18,6 @@ export class Aluno {
   @Column({ type: "varchar", length: 100, unique: true })
   email: string;
 
-  @OneToMany(() => Materia, (materia) => materia.aluno)
+  @OneToMany(() => Materia, (materia) => materia.alunos)
   materias: Materia[];
-
 }

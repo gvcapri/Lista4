@@ -22,7 +22,7 @@ export class MateriaRepository {
     }
 
     async pesquisar(materia: Partial<Materia>): Promise<Materia | null> {
-        return await this.repositorio.findOne({ where: materia });
+        return await this.repositorio.findOne({ where: materia});
     }
 
     async remover(materia: Materia): Promise<Materia> {

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 import { Aluno } from "./Aluno";
 import { Professor } from "./Professor";
 
@@ -18,8 +18,10 @@ export class Materia {
 
 
   @ManyToOne(() => Aluno, (aluno) => aluno.materias)
-  aluno: Aluno;
+  alunos: Aluno;
 
+  @Column({type: "varchar", length: 100, nullable: true})
+  preReq: string
 
   @ManyToOne(() => Professor, (professor) => professor.materias)
   professor: Professor;
