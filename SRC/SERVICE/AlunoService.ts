@@ -38,8 +38,6 @@ export class AlunoService {
         console.log(`O aluno ${aluno.nome} foi matriculado na matéria ${materia.nome} com sucesso!`);
     }
     
-    
-
     async excluirAluno(id: number): Promise<void> {
         const aluno = await this.alunoRepository.obter(id);
         if (aluno) {

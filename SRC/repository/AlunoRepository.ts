@@ -14,7 +14,6 @@ export class AlunoRepositorio{
         return this.repositorio.save(aluno);
     }
     
-
     async listar(): Promise<Aluno[]>{
         return await this.repositorio.find();
     }
