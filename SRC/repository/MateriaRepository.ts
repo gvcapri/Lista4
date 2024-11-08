@@ -1,5 +1,5 @@
 import { Materia } from "../entity/Materia";
-import { Banco } from "../banco";
+import { Banco } from "../../banco";
 import { Repository } from "typeorm";
 
 export class MateriaRepository {

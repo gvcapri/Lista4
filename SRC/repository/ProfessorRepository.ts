@@ -1,5 +1,5 @@
 import { Professor } from "../entity/Professor";
-import { Banco } from "../banco";
+import { Banco } from "../../banco";
 import { Repository } from "typeorm";
 
 export class ProfessorRepository {

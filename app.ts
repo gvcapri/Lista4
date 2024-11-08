@@ -1,22 +1,25 @@
+import "reflect-metadata";
 import express from 'express';
-import professorRoutes from './ROUTES/professorRoutes';
-import materiaRoutes from './ROUTES/materiaRoutes';
-import alunoRoutes from './ROUTES/alunoRoutes'; // Importe as rotas dos alunos, caso tenha criado
+import professorRoutes from './SRC/ROUTES/professorRoutes';
+import materiaRoutes from './SRC/ROUTES/materiaRoutes';
+import alunoRoutes from './SRC/ROUTES/alunoRoutes'; 
 
-const app = express();
-const PORT = 3000;
 
-// Middleware para interpretar o corpo das requisições como JSON
-app.use(express.json());
+import { Banco } from "./banco"
 
-// Registro das rotas principais
-app.use('/professores', professorRoutes);  // Rotas para Professor
-app.use('/materias', materiaRoutes);        // Rotas para Materia
-app.use('/alunos', alunoRoutes);            // Rotas para Aluno
+const minhaAPI = express();
+minhaAPI.use(express.json());
+minhaAPI.use('/professores', professorRoutes);
+minhaAPI.use('/materias', materiaRoutes);
+minhaAPI.use('/alunos', alunoRoutes);
+const porta = 3000;
 
-// Inicialização do servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+minhaAPI.listen(porta, async() => {
+    
+    Banco.initialize().then(() => {
+        console.log("Conexão com o banco de dados efetuada com sucesso.")
+    }).catch((erro) => console.log(erro));
+
+    console.log('Servidor web rodando na porta 3000');
 });
 
-export default app;

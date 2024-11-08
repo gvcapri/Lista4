@@ -1,5 +1,5 @@
 import { Aluno } from '../entity/Aluno';
-import { Banco } from '../banco';
+import { Banco } from '../../banco';
 import { Repository } from 'typeorm';
 
 export class AlunoRepositorio{
@@ -10,8 +10,8 @@ export class AlunoRepositorio{
     }
 
     async criar(aluno: Aluno): Promise<Aluno> {
-    
-        return this.repositorio.manager.save(aluno);
+
+        return this.repositorio.save(aluno);
     }
     
 
